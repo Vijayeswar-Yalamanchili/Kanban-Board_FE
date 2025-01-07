@@ -8,10 +8,11 @@ import Theme from "./Theme";
 interface Props {
     isBoardModalOpen : boolean,
     setOpenDropDown : React.Dispatch<React.SetStateAction<boolean>>,
-    setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>
+    setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
+    setBoardCreateType: any
 }
 
-function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
+function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen, setBoardCreateType} : Props) {
 
     const boards = useSelector((state :RootState) => state.board)
     const dispatch = useDispatch()
@@ -26,6 +27,7 @@ function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
     const handleCreateBoard = () => {
         setOpenDropDown(false)
         setIsBoardModalOpen(true)
+        setBoardCreateType("add")
     }
 
     return <>
@@ -38,12 +40,12 @@ function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
                 <div>
                     {
                         boards?.boards.map((e,i) => {
-                            return <>
-                                <div onClick={() => dispatch(setBoardActive({i}))} key={i} className={`flex items-baseline space-x-2 px-5 py-4 ${e.isActive && "bg-[#635fc7] rounded-r-full text-white mr-8 "}`}>
+                            return <div key={i}>
+                                <div onClick={() => dispatch(setBoardActive({i}))}  className={`flex items-baseline space-x-2 px-5 py-4 ${e.isActive && "bg-[#635fc7] rounded-r-full text-white mr-8 "}`}>
                                     <img src={boardIcon} className="filter-white  h-4 " />{" "}
                                     <p className=" text-lg font-bold  ">{e.name}</p>
                                 </div>
-                            </>
+                            </div>
                         })
                     }
                     <div onClick={handleCreateBoard} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">

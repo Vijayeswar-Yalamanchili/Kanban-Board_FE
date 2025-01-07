@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import HeaderDropDown from './HeaderDropDown'
 import AddEditBoardModal from '../modals/AddEditBoardModal'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/Store'
 import AddEditTaskModal from '../modals/AddEditTaskModal'
+import EllipsisMenu from './EllipsisMenu'
+import DeleteModal from './DeleteModal'
+import { deleteBoard, setBoardActive } from '../redux/boardSlice'
 
 interface Props {
     isBoardModalOpen : boolean,
@@ -19,16 +22,17 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
 
     const [boardCreateType, setBoardCreateType] = useState<string>("add");
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
-    const [ellipsisMenu, setEllipsisMenu] = useState<boolean>(false)
-    const [openEllipsisMenu, setOpenEllipsisMenu] = useState<boolean>(false)
+    const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState<boolean>(false)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false)
-    const boards = useSelector((state :RootState) => state.board.boards)
+    const boards = useSelector((state :RootState) => state?.board?.boards)
     const boardHeader = boards.find(board => board.isActive)
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const handleDropDown = () => {
         setOpenDropDown(!openDropDown)
-        setEllipsisMenu(false)
+        setIsEllipsisMenuOpen(false)
+        setBoardCreateType("add")
     }
 
     const handleCreateTask = () => {
@@ -37,9 +41,30 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     }
 
     const handleEllipsisMenu = () => {
-        setOpenEllipsisMenu(!openEllipsisMenu)
-        setEllipsisMenu(!ellipsisMenu)
-        setBoardCreateType("add")
+        setIsEllipsisMenuOpen(state => !state)
+        setOpenDropDown(false)
+        setBoardCreateType("edit")
+    }
+
+    const setOpenEditModal = () => {
+        setBoardCreateType("edit")
+        setIsBoardModalOpen(true)
+        setIsEllipsisMenuOpen(false)
+    }
+
+    const setOpenDeleteModal = () => {
+        setIsDeleteModalOpen(true)
+        setIsEllipsisMenuOpen(false)
+    }
+
+    const onDeleteBtnClick = (e : any) => {
+        if (e.target.textContent === "Delete") {
+            dispatch(deleteBoard());
+            dispatch(setBoardActive({ i: 0 }));
+            setIsDeleteModalOpen(false);
+        } else {
+            setIsDeleteModalOpen(false);
+        }
     }
 
     return <>
@@ -60,11 +85,14 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
                     <button onClick={handleCreateTask} className='newTaskbutton md:hidden p-0 m-1 w-10 h-10 rounded-full bg-purple-600'><FontAwesomeIcon icon={faPlus}/></button>
                     <div className='pe-2 cursor-pointer' onClick={handleEllipsisMenu}><FontAwesomeIcon icon={faEllipsisVertical}/></div>
                 </div>
+                {
+                    isEllipsisMenuOpen && <EllipsisMenu setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Boards"/>
+                }
             </header>
         </div>
 
         {
-            openDropDown && <HeaderDropDown setOpenDropDown={setOpenDropDown} setIsBoardModalOpen={setIsBoardModalOpen} isBoardModalOpen={isBoardModalOpen}/>
+            openDropDown && <HeaderDropDown setOpenDropDown={setOpenDropDown} setBoardCreateType={setBoardCreateType} setIsBoardModalOpen={setIsBoardModalOpen} isBoardModalOpen={isBoardModalOpen}/>
         }
 
         {
@@ -72,7 +100,11 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
         }
 
         {
-            isTaskModalOpen && <AddEditTaskModal setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile"/>
+            isTaskModalOpen && <AddEditTaskModal setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile" prevColIndex={0} />
+        }
+
+        {
+            isDeleteModalOpen && <DeleteModal setIsDeleteModalOpen={setIsDeleteModalOpen}  type="board" title={boardHeader?.name} onDeleteBtnClick={onDeleteBtnClick} />        
         }
     </>
 }

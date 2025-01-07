@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { RootState } from '../redux/Store'
-import { addNewTask, ColumnData } from '../redux/boardSlice'
+import { addTask } from '../redux/boardSlice'
 import { SubTasks } from '../type'
 import crossIcon from '../assets/crossIcon.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,13 +10,16 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
     setIsTaskModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
-    setIsAddTaskModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
+    // setIsAddTaskModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
     taskType : string,
     device : string,
-    prevColIndex: number
+    prevColIndex: number | any,
+    // taskIndex : number
 }
 
-function AddEditTaskModal({setIsTaskModalOpen, taskType , device, prevColIndex = 0, setIsAddTaskModalOpen}:Props) {
+function AddEditTaskModal({setIsTaskModalOpen, taskType , device, 
+    // setIsAddTaskModalOpen,taskIndex
+    prevColIndex = 0, }:Props) {
 
     const dispatch = useDispatch()
     const board = useSelector((state : RootState) => state.board.boards).find(board => board.isActive)
@@ -34,7 +37,7 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device, prevColIndex =
     const [priority, setPriority] = useState<string[]>(["High", "Medium", "Low"])
     const [selectedPriority, setSelectedPriority] = useState<string>("")
     const [dueDate, setDueDate] = useState<string>("");
-
+//  console.log(board?.columns[0].tasks)
     const handleTaskModalToggle = (e : any) => {
         if(e.target !== e.currentTarget){           // to close the dropdown on click anywhere in screen
             return
@@ -72,8 +75,11 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device, prevColIndex =
 
     const onSubmit = (taskType : string) => {
         if (taskType === "add") {
-          dispatch(addNewTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate}));
-        } 
+          dispatch(addTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate, newColIndex}));
+        } else {
+            console.log("editTask")
+            // dispatch(editTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate,prevColIndex, taskIndex, newColIndex}))
+        }
     }
 
     const onDelete = (id : string) => {
@@ -92,7 +98,7 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device, prevColIndex =
         const isValid = validate()
         if (isValid) {
             onSubmit(taskType)
-            setIsAddTaskModalOpen(false)
+            // setIsAddTaskModalOpen(false)
             taskType === "edit" && setIsTaskModalOpen(false)
         }        
     }

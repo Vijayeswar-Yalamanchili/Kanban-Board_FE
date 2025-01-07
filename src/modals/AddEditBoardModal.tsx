@@ -5,7 +5,8 @@ import crossIcon from '../assets/crossIcon.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { addBoard, editBoard } from "../redux/boardSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../redux/Store"
 
 interface Props {
     setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
@@ -17,12 +18,13 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     const dispatch = useDispatch()
     const [name, setName] = useState<string>("")
     const [isValid, setIsValid] = useState<boolean>(true)
+    const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true)
     const [newColumns, setNewColumns] = useState<Column[]>([
         { name: "Todo", tasks: [], id: uuidv4() },
         { name: "In Progress", tasks: [], id: uuidv4() },
         { name: "Done", tasks: [], id: uuidv4() },
-    ])
-    
+    ])    
+    const board = useSelector((state :RootState) => state?.board?.boards).find((board) => board?.isActive)
 
     const handletScreenClickTarget = (e : any) => {
         if(e.target !== e.currentTarget){               // to close the dropdown on click anywhere in screen
@@ -30,6 +32,14 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
         }
         setIsBoardModalOpen(false)
     }
+
+    if (boardCreateType === "edit" && isFirstLoad) {
+        setNewColumns(board?.columns?.map((col) => {
+            return {...col, id : uuidv4()}
+        }))
+        setName(board?.name)
+        setIsFirstLoad(false)
+      }
 
     const validate = () => {
         setIsValid(false)
@@ -98,12 +108,12 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
                     </label>
                     {
                         newColumns.map((column)=> {
-                            return <>
+                            return <div key={column.id}>
                                 <div key={column.id} className=" flex items-center w-full ">
                                     <input onChange={(e) => { onChange(column.id, e.target.value)}} type="text" value={column.name} className=" bg-transparent flex-grow px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px]"/>
                                     <img src={crossIcon} onClick={() => onDelete(column.id)} className="m-4 cursor-pointer"/>
                                 </div>
-                            </>
+                            </div>
                         })
                     }
                     <div className="space-y-8">
