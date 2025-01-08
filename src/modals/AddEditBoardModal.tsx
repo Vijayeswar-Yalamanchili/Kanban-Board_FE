@@ -14,6 +14,7 @@ interface Props {
 }
 
 function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
+    console.log('boardCreateType : ', boardCreateType)
 
     const dispatch = useDispatch()
     const [name, setName] = useState<string>("")
@@ -26,20 +27,25 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     ])    
     const board = useSelector((state :RootState) => state?.board?.boards).find((board) => board?.isActive)
 
+
+    if (boardCreateType === "edit" && isFirstLoad) {
+        // if(board?.columns) {
+        //     setNewColumns(
+        //         board.columns.map((col) => {
+        //             return { ...col, id: uuidv4() };
+        //           })
+        //     )
+        // }
+        if(board) setName(board?.name)
+        setIsFirstLoad(false)
+    }
+
     const handletScreenClickTarget = (e : any) => {
         if(e.target !== e.currentTarget){               // to close the dropdown on click anywhere in screen
             return
         }
         setIsBoardModalOpen(false)
     }
-
-    if (boardCreateType === "edit" && isFirstLoad) {
-        setNewColumns(board?.columns?.map((col) => {
-            return {...col, id : uuidv4()}
-        }))
-        setName(board?.name)
-        setIsFirstLoad(false)
-      }
 
     const validate = () => {
         setIsValid(false)
@@ -56,10 +62,12 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     }
 
     const onSubmit = (boardCreateType : string) => {
-        setIsBoardModalOpen(false);
+        setIsBoardModalOpen(false)
         if (boardCreateType === "add") {
+            console.log('add')
           dispatch(addBoard({name, newColumns}));
         } else {
+            console.log('edit')
           dispatch(editBoard({name, newColumns}));
         }
     }
@@ -67,27 +75,30 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     const onChange = (id:string, newValue : string) => {
         setNewColumns((prevState) => {
             const newState = [...prevState]
-            console.log(newState)
             const column = newState.find((col) => col.id === id)
-            if(column) { column.name = newValue}
+            if(column) column.name = newValue
             return newState
-        });
-    };
+        })
+    }
     
     const onDelete = (id : string) => {
         setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
     }
 
     const handleAddNewColumn = () => {
+        console.log('New Column Added')
         setNewColumns((state) => [
             ...state,
             { name: "", tasks: [], id: uuidv4() },
         ])
+        console.log(newColumns)
     }
     
     const handleBoardChange = () => {
+        console.log('New Board Added')
         const isValid = validate()
         if (isValid) onSubmit(boardCreateType)
+        console.log('boardCreateType : ', boardCreateType)
     }
 
     return <>
@@ -107,13 +118,11 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
                         Board Columns
                     </label>
                     {
-                        newColumns.map((column)=> {
-                            return <div key={column.id}>
-                                <div key={column.id} className=" flex items-center w-full ">
+                         newColumns?.map((column,index)=> {
+                            return <div key={index} className=" flex items-center w-full ">
                                     <input onChange={(e) => { onChange(column.id, e.target.value)}} type="text" value={column.name} className=" bg-transparent flex-grow px-4 py-2 rounded-md text-sm  border-[0.5px] border-gray-600 focus:outline-[#635fc7] outline-[1px]"/>
                                     <img src={crossIcon} onClick={() => onDelete(column.id)} className="m-4 cursor-pointer"/>
                                 </div>
-                            </div>
                         })
                     }
                     <div className="space-y-8">

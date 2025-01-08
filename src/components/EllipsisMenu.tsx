@@ -5,6 +5,7 @@ interface Props {
 }
 
 function EllipsisMenu({type,setOpenEditModal,setOpenDeleteModal} : Props) {
+  
   return <>
     <div className={type === "Boards" ? "absolute top-16 right-5": "absolute top-6 right-4"}>
       <div className="flex justify-end items-center">

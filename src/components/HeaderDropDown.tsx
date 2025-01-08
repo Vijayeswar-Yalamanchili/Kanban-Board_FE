@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/Store"
 import { setBoardActive } from '../redux/boardSlice'
@@ -6,28 +6,23 @@ import boardIcon from '../assets/boardIcon.svg'
 import Theme from "./Theme";
 
 interface Props {
-    isBoardModalOpen : boolean,
     setOpenDropDown : React.Dispatch<React.SetStateAction<boolean>>,
     setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
-    setBoardCreateType: any
 }
 
-function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen, setBoardCreateType} : Props) {
+function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
 
     const boards = useSelector((state :RootState) => state.board)
     const dispatch = useDispatch()
 
     const handletScreenClickTarget = (e : any) => {
-        if(e.target !== e.currentTarget){           // to close the dropdown on click anywhere in screen
-            return
-        }
+        if(e.target !== e.currentTarget) return         // to close the dropdown on click anywhere in screen
         setOpenDropDown(false)
     }
 
     const handleCreateBoard = () => {
         setOpenDropDown(false)
         setIsBoardModalOpen(true)
-        setBoardCreateType("add")
     }
 
     return <>
@@ -48,9 +43,17 @@ function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen, setBoardCreateTy
                             </div>
                         })
                     }
-                    <div onClick={handleCreateBoard} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">
+                    {/* {
+                        boardCreateType && <>
+                            <div onClick={() => handleCreateBoard()} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">
+                                <img src={boardIcon} className="filter-white  h-4 " />
+                                <p className=" text-lg font-bold">Create New Board</p>
+                            </div>
+                        </>
+                    } */}
+                    <div onClick={() => handleCreateBoard()} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">
                         <img src={boardIcon} className="filter-white  h-4 " />
-                        <p className=" text-lg font-bold">Create New Board </p>
+                        <p className=" text-lg font-bold">Create New Board</p>
                     </div>
                     <Theme/>
                 </div>

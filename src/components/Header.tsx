@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/Store'
 import AddEditTaskModal from '../modals/AddEditTaskModal'
 import EllipsisMenu from './EllipsisMenu'
-import DeleteModal from './DeleteModal'
+import DeleteModal from '../modals/DeleteModal'
 import { deleteBoard, setBoardActive } from '../redux/boardSlice'
 
 interface Props {
@@ -20,9 +20,9 @@ interface Props {
 
 function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
 
-    const [boardCreateType, setBoardCreateType] = useState<string>("add");
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
     const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState<boolean>(false)
+    const [boardCreateType, setBoardCreateType] = useState<string>("add")
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
     const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false)
     const boards = useSelector((state :RootState) => state?.board?.boards)
@@ -30,7 +30,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     const dispatch = useDispatch()
 
     const handleDropDown = () => {
-        setOpenDropDown(!openDropDown)
+        setOpenDropDown(prev => !prev)
         setIsEllipsisMenuOpen(false)
         setBoardCreateType("add")
     }
@@ -43,28 +43,27 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     const handleEllipsisMenu = () => {
         setIsEllipsisMenuOpen(state => !state)
         setOpenDropDown(false)
-        setBoardCreateType("edit")
-    }
-
-    const setOpenEditModal = () => {
-        setBoardCreateType("edit")
-        setIsBoardModalOpen(true)
-        setIsEllipsisMenuOpen(false)
-    }
-
-    const setOpenDeleteModal = () => {
-        setIsDeleteModalOpen(true)
-        setIsEllipsisMenuOpen(false)
     }
 
     const onDeleteBtnClick = (e : any) => {
         if (e.target.textContent === "Delete") {
-            dispatch(deleteBoard());
+            dispatch(deleteBoard())
             dispatch(setBoardActive({ i: 0 }));
-            setIsDeleteModalOpen(false);
+            setIsDeleteModalOpen(false)
         } else {
-            setIsDeleteModalOpen(false);
+            setIsDeleteModalOpen(false)
         }
+    }
+
+    const setOpenEditModal = () => {
+        setIsBoardModalOpen(true)
+        setIsEllipsisMenuOpen(false)
+        setBoardCreateType("edit")
+    }
+  
+    const setOpenDeleteModal = () => {
+        setIsDeleteModalOpen(true)
+        setIsEllipsisMenuOpen(false)
     }
 
     return <>
@@ -77,7 +76,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
                     </div>
                     <div className='flex justify-start items-center space-x-1'>
                         <h3 className='text-xl'>{boardHeader?.name}</h3>
-                        <img src={openDropDown ? iconUp : iconDown} onClick={handleDropDown} alt="dropdownIcon" className='cursor-pointer md:hidden w-2.25 h-2.25 '/>
+                        <img src={openDropDown ? iconUp : iconDown} onClick={() => handleDropDown()} alt="dropdownIcon" className='cursor-pointer md:hidden w-2.25 h-2.25 '/>
                     </div>
                 </div>
                 <div className='flex justify-center items-center space-x-5'>
@@ -87,12 +86,13 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
                 </div>
                 {
                     isEllipsisMenuOpen && <EllipsisMenu setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Boards"/>
+                    // isEllipsisMenuOpen && <EllipsisMenu type="Boards"  setIsDeleteModalOpen={setIsDeleteModalOpen} setIsBoardModalOpen={setIsBoardModalOpen} setIsEllipsisMenuOpen={setIsEllipsisMenuOpen}/>
                 }
             </header>
         </div>
 
         {
-            openDropDown && <HeaderDropDown setOpenDropDown={setOpenDropDown} setBoardCreateType={setBoardCreateType} setIsBoardModalOpen={setIsBoardModalOpen} isBoardModalOpen={isBoardModalOpen}/>
+            openDropDown && <HeaderDropDown setOpenDropDown={setOpenDropDown} setIsBoardModalOpen={setIsBoardModalOpen}/>
         }
 
         {

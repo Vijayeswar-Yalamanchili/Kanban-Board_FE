@@ -10,17 +10,16 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
     setIsTaskModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
-    // setIsAddTaskModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
+    setIsAddTaskModalOpen:React.Dispatch<React.SetStateAction<boolean>>,
     taskType : string,
     device : string,
     prevColIndex: number | any,
-    // taskIndex : number
+    taskIndex : number
 }
 
-function AddEditTaskModal({setIsTaskModalOpen, taskType , device, 
-    // setIsAddTaskModalOpen,taskIndex
-    prevColIndex = 0, }:Props) {
+function AddEditTaskModal({setIsTaskModalOpen, taskType , device, setIsAddTaskModalOpen,taskIndex,prevColIndex = 0, }:Props) {
 
+    let today = new Date()
     const dispatch = useDispatch()
     const board = useSelector((state : RootState) => state.board.boards).find(board => board.isActive)
     const columns = board?.columns
@@ -35,8 +34,8 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device,
     
     const [assigneeName, setAsigneeName] = useState<string>("")
     const [priority, setPriority] = useState<string[]>(["High", "Medium", "Low"])
-    const [selectedPriority, setSelectedPriority] = useState<string>("")
-    const [dueDate, setDueDate] = useState<string>("");
+    const [selectedPriority, setSelectedPriority] = useState<string>("High")
+    const [dueDate, setDueDate] = useState<string>(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`);
 //  console.log(board?.columns[0].tasks)
     const handleTaskModalToggle = (e : any) => {
         if(e.target !== e.currentTarget){           // to close the dropdown on click anywhere in screen
