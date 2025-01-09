@@ -104,7 +104,6 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
         <div onClick={(e) => handletScreenClickTarget(e)} className="fixed right-0 top-0 px-2 py-4 overflow-scroll scrollbar-hide  z-50 left-0 bottom-0 justify-center items-center flex dropdown">
             {/* Modal Section */}
             <div className="scrollbar-hide overflow-y-scroll max-h-[95vh] bg-slate-100 dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto mt-32 w-full px-8 py-8 rounded-xl">
-                {boardCreateType}
                 <h3 className="text-lg">{boardCreateType === 'edit' ? 'Edit': "Add New"} Board</h3>
                 {/* Task Name */}
                 <div className="mt-8 flex flex-col space-y-1">
