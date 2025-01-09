@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import { RootState } from "../redux/Store"
 import SideBar from "./SideBar"
 import EmptyBoard from "./EmptyBoard"
-import AddEditBoardModal from "../modals/AddEditBoardModal"
 import Column from "./Column"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
@@ -44,7 +43,7 @@ function Center({setIsBoardModalOpen, isBoardModalOpen} : Props) {
       {
         columns && columns?.length > 0 ? <>
           {
-            columns?.map((col, i) => {
+            columns?.map((_col, i) => {
               return <Column key={i} colIndex={i} />
             })
           }

@@ -13,8 +13,8 @@ function Task({taskIndex, colIndex}:Props) {
   const boards = useSelector((state : RootState) => state.board.boards)
   const board = boards.find((board) => board.isActive === true)
   const columns = board?.columns
-  const col = columns?.find((col, i) => i === colIndex)
-  const task = col?.tasks.find((task, i) => i === taskIndex)
+  const col = columns?.find((_col, i) => i === colIndex)
+  const task = col?.tasks.find((_task, i) => i === taskIndex)
   // console.log(task)
   const [isTaskModalOpen, setIsTaskModalOpen] = useState<boolean>(false)
 

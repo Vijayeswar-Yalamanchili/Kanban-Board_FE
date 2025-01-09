@@ -6,7 +6,7 @@ interface Props {
   boardCreateType : string
 }
 
-function EllipsisMenu({type,setOpenEditModal,setOpenDeleteModal,boardCreateType='edit', setBoardCreateType} : Props) {
+function EllipsisMenu({type,setOpenEditModal,setOpenDeleteModal,boardCreateType,setBoardCreateType} : Props) {
   
   return <>
     {

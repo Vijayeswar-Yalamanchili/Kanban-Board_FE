@@ -13,12 +13,12 @@ function Subtask({taskIndex, colIndex, index}:Props) {
   const dispatch = useDispatch();
   const boards = useSelector((state : RootState) => state.board.boards);
   const board = boards.find((board) => board.isActive === true);
-  const col = board?.columns.find((col, i) => i === colIndex);
-  const task = col?.tasks.find((task, i) => i === taskIndex);
-  const subtask = task?.subtasks.find((subtask, i) => i === index);
+  const col = board?.columns.find((_col, i) => i === colIndex);
+  const task = col?.tasks.find((_task, i) => i === taskIndex);
+  const subtask = task?.subtasks.find((_subtask, i) => i === index);
   const checked = subtask?.isCompleted;
 
-  const onChange = (e:any) => {
+  const onChange = (_e:any) => {
     dispatch(setSubtaskCompleted({ index, taskIndex, colIndex }))
   }
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { RootState } from '../redux/Store'
-import { addTask } from '../redux/boardSlice'
+import { addTask, editTask } from '../redux/boardSlice'
 import { SubTasks } from '../type'
 import crossIcon from '../assets/crossIcon.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,17 +23,19 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device,setIsAddTaskMod
     const dispatch = useDispatch()
     const board = useSelector((state : RootState) => state.board.boards).find(board => board.isActive)
     const columns = board?.columns
-    const col = columns?.find((col, index) => index === prevColIndex);
-
+    const col = columns?.find((_col, index) => index === prevColIndex)
+    const task = col ? col.tasks.find((_task, index) => index === taskIndex) : []
+console.log(task)
     const [title, setTitle] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [status, setStatus] = useState<string>( columns?.[prevColIndex]?.name || "")
-    const [isValid, setIsValid] = useState<boolean>(true)
+    const [_isValid, setIsValid] = useState<boolean>(true)
+    // const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true)
     const [newColIndex, setNewColIndex] = useState<number>(prevColIndex)
     const [subtasks, setSubtasks] = useState<SubTasks[]>([{ title: "", isCompleted: false, id: uuidv4() }])
     
     const [assigneeName, setAsigneeName] = useState<string>("")
-    const [priority, setPriority] = useState<string[]>(["High", "Medium", "Low"])
+    const [priority, _setPriority] = useState<string[]>(["High", "Medium", "Low"])
     const [selectedPriority, setSelectedPriority] = useState<string>("High")
     const [dueDate, setDueDate] = useState<string>(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`);
 //  console.log(board?.columns[0].tasks)
@@ -76,14 +78,25 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device,setIsAddTaskMod
         if (taskType === "add") {
           dispatch(addTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate, newColIndex}));
         } else {
-            console.log("editTask")
-            // dispatch(editTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate,prevColIndex, taskIndex, newColIndex}))
+            // console.log("editTask")
+            dispatch(editTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate,prevColIndex, taskIndex, newColIndex}))
         }
     }
 
     const onDelete = (id : string) => {
         setSubtasks((prevState) => prevState.filter((el) => el.id !== id));
     }
+
+    // if (taskType === "edit" && isFirstLoad) {
+    //     setSubtasks(
+    //       task?.subtasks?.map((subtask: any) => {
+    //         return { ...subtask, id: uuidv4() };
+    //       })
+    //     );
+    //     if(task) setTitle(task?.name);
+    //     setDescription(task?.description);
+    //     setIsFirstLoad(false);
+    // }
     
 
     const handleNewSubTasks = () => {
@@ -97,7 +110,7 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device,setIsAddTaskMod
         const isValid = validate()
         if (isValid) {
             onSubmit(taskType)
-            // setIsAddTaskModalOpen(false)
+            setIsAddTaskModalOpen(false)
             taskType === "edit" && setIsTaskModalOpen(false)
         }        
     }

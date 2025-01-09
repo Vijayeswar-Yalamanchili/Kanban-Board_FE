@@ -27,7 +27,7 @@ function Column({colIndex}:Props) {
   const [color, setColor] = useState<any>(null)
   const boards = useSelector((state : RootState) => state.board.boards)
   const board = boards.find((board) => board.isActive === true)
-  const col = board?.columns.find((col, i) => i === colIndex)
+  const col = board?.columns.find((_col, i) => i === colIndex)
 
   const handleOnDrop = (e : any) => {
     const { prevColIndex, taskIndex } = JSON.parse( e.dataTransfer.getData("text"))
@@ -51,7 +51,7 @@ function Column({colIndex}:Props) {
         {col?.name} ({col?.tasks?.length})
       </p>
       {
-        col?.tasks.map((task, index) => (
+        col?.tasks.map((_task, index) => (
           <Task key={index} taskIndex={index} colIndex={colIndex} />
         ))
       }

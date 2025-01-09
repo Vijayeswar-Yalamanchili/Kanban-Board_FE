@@ -3,7 +3,7 @@ import logo from '../assets/logo.svg'
 import iconUp from '../assets/dropDownUp.svg'
 import iconDown from '../assets/dropDownDown.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import HeaderDropDown from './HeaderDropDown'
 import AddEditBoardModal from '../modals/AddEditBoardModal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -105,7 +105,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
         }
 
         {
-            isTaskModalOpen && <AddEditTaskModal setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile" prevColIndex={0}  taskIndex={0} />
+            isTaskModalOpen && <AddEditTaskModal setIsAddTaskModalOpen={setIsTaskModalOpen} setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile" prevColIndex={0} taskIndex={0} />
         }
 
         {

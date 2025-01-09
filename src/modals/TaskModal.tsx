@@ -21,9 +21,10 @@ function TaskModal({taskIndex, colIndex, setIsTaskModalOpen}:Props) {
   const boards = useSelector((state : RootState) => state.board.boards)
   const board = boards.find((board) => board.isActive)
   const columns = board?.columns
-  const col = columns?.find((col, i) => i === colIndex)
-  const task = col?.tasks.find((task, i) => i === taskIndex)
+  const col = columns?.find((_col, i) => i === colIndex)
+  const task = col?.tasks.find((_task, i) => i === taskIndex)
   const subtasks = task?.subtasks
+  const [boardCreateType, setBoardCreateType] = useState<string>("edit")
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [status, setStatus] = useState<any>(task?.status)
@@ -77,7 +78,7 @@ function TaskModal({taskIndex, colIndex, setIsTaskModalOpen}:Props) {
           <h1 className=" text-lg">{task?.title}</h1>
           <div className='pe-2 cursor-pointer h-6' onClick={() => setIsElipsisMenuOpen((prevState) => !prevState)}><FontAwesomeIcon icon={faEllipsisVertical}/></div>    
           {
-            isElipsisMenuOpen && <EllipsisMenu setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Task"/>
+            isElipsisMenuOpen && <EllipsisMenu boardCreateType={boardCreateType} setBoardCreateType={setBoardCreateType} setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Task"/>
           }
         </div>
         <p className=" text-gray-500 font-[600] tracking-wide text-xs pt-6">{task?.description}</p>
@@ -87,7 +88,7 @@ function TaskModal({taskIndex, colIndex, setIsTaskModalOpen}:Props) {
 
         <div className=" mt-3 space-y-2">
           {
-            subtasks?.map((subtask, index) => {
+            subtasks?.map((_subtask, index) => {
               return <Subtask index={index} taskIndex={taskIndex} colIndex={colIndex} key={index}/>
             })
           }

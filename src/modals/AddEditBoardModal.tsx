@@ -19,7 +19,7 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
 
     const dispatch = useDispatch()
     const [name, setName] = useState<string>("")
-    const [isValid, setIsValid] = useState<boolean>(true)
+    const [_isValid, setIsValid] = useState<boolean>(true)
     const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true)
     const [newColumns, setNewColumns] = useState<Column[]>([
         { name: "Todo", tasks: [], id: uuidv4() },
