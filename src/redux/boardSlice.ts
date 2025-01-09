@@ -40,7 +40,7 @@ interface BoardActiveStatus {
 }
 
 const initialState: BoardState = {
-    boards : []
+    boards : JSON.parse(localStorage.getItem('boards') || '[]')
     // boards : data.boards
 }
 
@@ -55,6 +55,7 @@ const boardSlice = createSlice({
                   : (board.isActive = false)
                 return board;
             })
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         addBoard : (state, action ) => {
             const isActive : boolean = state.boards.length > 0 ? false : true;
@@ -65,16 +66,19 @@ const boardSlice = createSlice({
                 columns: payload.newColumns,
             };
             state.boards.push(board)
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         editBoard: (state, action) => {
             const payload = action.payload
             const board = state.boards.find((board : any) => board.isActive)
             if(board) board.name = payload.name
             if(board) board.columns = payload.newColumns             
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         deleteBoard: (state) => {
             const board = state.boards.find((board) => board.isActive)
             if(board) { state.boards.splice(state.boards.indexOf(board), 1) }
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         addTask: (state, action) => {
             const { title, description,subtasks, status, assigneeName, selectedPriority, dueDate, newColIndex} =
@@ -82,8 +86,8 @@ const boardSlice = createSlice({
             const task = { title, description, subtasks, status, assigneeName, selectedPriority, dueDate }
             const board = state.boards.find((board) => board.isActive)
             const column = board?.columns.find((_col, index) => index === newColIndex)
-            console.log(task)
             column?.tasks.push(task)
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         editTask: (state, action) => {
             const { title, description,subtasks, status, assigneeName, selectedPriority, dueDate, prevColIndex, taskIndex, newColIndex} = action.payload
@@ -103,13 +107,15 @@ const boardSlice = createSlice({
             if(column) column.tasks = column?.tasks.filter((_task, index) => index !== taskIndex)
             const newCol = board?.columns.find((_col, index) => index === newColIndex)
             if(task) newCol?.tasks.push(task)
-        },
+            localStorage.setItem('boards', JSON.stringify(state.boards))
+        },    
         dragTask: (state, action) => {
             const { colIndex, prevColIndex, taskIndex } = action.payload
             const board = state.boards.find((board: { isActive: any }) => board.isActive)
             const prevCol = board?.columns.find((_col: any, i: any) => i === prevColIndex)
             const task = prevCol?.tasks.splice(taskIndex, 1)[0]
             if(task) board?.columns.find((_col, i) => i === colIndex)?.tasks.push(task)
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         setSubtaskCompleted: (state, action) => {
             const payload = action.payload;
@@ -118,6 +124,7 @@ const boardSlice = createSlice({
             const task = col?.tasks.find((_task, i) => i === payload.taskIndex);
             const subtask = task?.subtasks.find((_subtask, i) => i === payload.index);
             if(subtask) subtask.isCompleted = !subtask?.isCompleted;
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         setTaskStatus: (state, action) => {
             const payload = action.payload;
@@ -130,12 +137,14 @@ const boardSlice = createSlice({
             if(col) col.tasks = col?.tasks.filter((_task, i) => i !== payload.taskIndex);
             const newCol = columns?.find((_col, i) => i === payload.newColIndex);
             if(task) newCol?.tasks?.push(task);
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
         deleteTask: (state, action) => {
             const payload = action.payload;
             const board = state.boards.find((board) => board.isActive);
             const col = board?.columns.find((_col, i) => i === payload.colIndex);
             if(col) col.tasks = col?.tasks.filter((_task, i) => i !== payload.taskIndex);
+            localStorage.setItem('boards', JSON.stringify(state.boards))
         },
     }
 })
