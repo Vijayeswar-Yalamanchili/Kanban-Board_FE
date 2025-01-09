@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setSubtaskCompleted } from "../redux/boardSlice";
-import { RootState } from "../redux/Store";
+import { useDispatch, useSelector } from "react-redux"
+import { setSubtaskCompleted } from "../redux/boardSlice"
+import { RootState } from "../redux/Store"
 
 interface Props {
   taskIndex : number,
@@ -10,15 +10,15 @@ interface Props {
 
 function Subtask({taskIndex, colIndex, index}:Props) {
 
-  const dispatch = useDispatch();
-  const boards = useSelector((state : RootState) => state.board.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const col = board?.columns.find((_col, i) => i === colIndex);
-  const task = col?.tasks.find((_task, i) => i === taskIndex);
-  const subtask = task?.subtasks.find((_subtask, i) => i === index);
-  const checked = subtask?.isCompleted;
+  const dispatch = useDispatch()
+  const boards = useSelector((state : RootState) => state.board.boards)
+  const board = boards.find((board) => board.isActive === true)
+  const col = board?.columns.find((_col, i) => i === colIndex)
+  const task = col?.tasks.find((_task, i) => i === taskIndex)
+  const subtask = task?.subtasks.find((_subtask, i) => i === index)
+  const checked = subtask?.isCompleted
 
-  const onChange = (_e:any) => {
+  const onChange = () => {
     dispatch(setSubtaskCompleted({ index, taskIndex, colIndex }))
   }
 

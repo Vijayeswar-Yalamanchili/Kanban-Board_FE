@@ -1,9 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../redux/Store"
 import { setBoardActive } from '../redux/boardSlice'
 import boardIcon from '../assets/boardIcon.svg'
-import Theme from "./Theme";
+import Theme from "./Theme"
 
 interface Props {
     setOpenDropDown : React.Dispatch<React.SetStateAction<boolean>>,
@@ -29,9 +29,7 @@ function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
         <div className="py-10 px-6 absolute left-0 right-0 bottom-[-100vh] top-20 bg-slate-400" onClick={(e)=> {handletScreenClickTarget(e)}}>
             {/* dropdown modal */}
             <div className=" bg-white dark:bg-[#2b2c37] shadow-md shadow-[#364e7e1a]  w-full py-4 rounded-xl">
-                <h3 className=" dark:text-gray-300 text-gray-600 font-semibold mx-4 mb-8">
-                    ALL BOARDS ({boards?.boards?.length})
-                </h3>
+                <h3 className=" dark:text-gray-300 text-gray-600 font-semibold mx-4 mb-8">ALL BOARDS ({boards?.boards?.length})</h3>
                 <div>
                     {
                         boards?.boards.map((e,i) => {
@@ -43,14 +41,6 @@ function HeaderDropDown ({setOpenDropDown, setIsBoardModalOpen} : Props) {
                             </div>
                         })
                     }
-                    {/* {
-                        boardCreateType && <>
-                            <div onClick={() => handleCreateBoard()} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">
-                                <img src={boardIcon} className="filter-white  h-4 " />
-                                <p className=" text-lg font-bold">Create New Board</p>
-                            </div>
-                        </>
-                    } */}
                     <div onClick={() => handleCreateBoard()} className=" flex items-baseline space-x-2 text-[#635fc7] px-5 py-4">
                         <img src={boardIcon} className="filter-white  h-4 " />
                         <p className=" text-lg font-bold">Create New Board</p>

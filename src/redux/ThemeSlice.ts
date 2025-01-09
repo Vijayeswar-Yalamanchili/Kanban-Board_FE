@@ -13,15 +13,15 @@ const themeSlice = createSlice({
     initialState,
     reducers : {
         toggleTheme(state) {
-            state.mode = state.mode === 'light' ? 'dark' : 'light';
-            localStorage.setItem('theme', state.mode);
+            state.mode = state.mode === 'light' ? 'dark' : 'light'
+            localStorage.setItem('theme', state.mode)
         },
         setTheme(state, action: PayloadAction<'light' | 'dark'>) {
-            state.mode = action.payload;
-            localStorage.setItem('theme', state.mode);
+            state.mode = action.payload
+            localStorage.setItem('theme', state.mode)
         },
     }
 })
 
-export const { toggleTheme, setTheme } = themeSlice.actions;
-export default themeSlice.reducer;
+export const { toggleTheme, setTheme } = themeSlice.actions
+export default themeSlice.reducer

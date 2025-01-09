@@ -19,9 +19,7 @@ function EllipsisMenu({type,setOpenEditModal,setOpenDeleteModal,boardCreateType,
             setOpenEditModal()
           }} 
           className="cursor-pointer dark:text-gray-400 text-gray-700">Edit {type} </p>
-          <p 
-          onClick={() => setOpenDeleteModal()} 
-          className="cursor-pointer text-red-500">Delete {type}</p>
+          <p onClick={() => setOpenDeleteModal()} className="cursor-pointer text-red-500">Delete {type}</p>
         </div>
       </div>
     </div>

@@ -24,26 +24,18 @@
   background-position: right 16px top 50%;
 }
 
-/* styles.css */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .light {
-    background-color: #ffffff;
-    color: #000000;
-  }
-  
-  .dark {
-    background-color: #121212;
-    color: #ffffff;
-  }
-  
-  /* button {
-    padding: 10px 20px;
-    margin: 20px;
-    cursor: pointer;
-  } */
-  
+  margin: 0;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #121212;
+  color: #ffffff;
+}  

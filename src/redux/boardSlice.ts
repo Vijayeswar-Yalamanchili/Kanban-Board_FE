@@ -2,13 +2,11 @@ import { createSlice } from "@reduxjs/toolkit"
 // import data from '../data.json'
 
 export interface SubTaskData {
-    // id : number | "",
     title : string,
     isCompleted : boolean
 }
 
 export interface TaskData {
-    // id : number | "",
     title : string,
     description : string,
     status : string
@@ -19,13 +17,11 @@ export interface TaskData {
 }
 
 export interface ColumnData {
-    // id : number | "",
     name : string,
     tasks : TaskData[]
 }
 
 export interface BoardData {
-    // id : number | "",
     name : string,
     isActive : boolean,
     columns : ColumnData[]
@@ -149,5 +145,5 @@ const boardSlice = createSlice({
     }
 })
 
-export const { setBoardActive, addBoard, editBoard, deleteBoard, addTask,  editTask, dragTask, setSubtaskCompleted, setTaskStatus, deleteTask} = boardSlice.actions;
-export default boardSlice.reducer;
+export const { setBoardActive, addBoard, editBoard, deleteBoard, addTask,  editTask, dragTask, setSubtaskCompleted, setTaskStatus, deleteTask} = boardSlice.actions
+export default boardSlice.reducer

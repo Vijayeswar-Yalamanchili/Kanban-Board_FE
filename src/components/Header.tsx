@@ -1,18 +1,17 @@
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { RootState } from '../redux/Store'
+import { deleteBoard, setBoardActive } from '../redux/boardSlice'
 import logo from '../assets/logo.svg'
 import iconUp from '../assets/dropDownUp.svg'
 import iconDown from '../assets/dropDownDown.svg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
 import HeaderDropDown from './HeaderDropDown'
 import AddEditBoardModal from '../modals/AddEditBoardModal'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../redux/Store'
 import AddEditTaskModal from '../modals/AddEditTaskModal'
 import EllipsisMenu from './EllipsisMenu'
 import DeleteModal from '../modals/DeleteModal'
-import { deleteBoard, setBoardActive } from '../redux/boardSlice'
-
 interface Props {
     isBoardModalOpen : boolean,
     setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>
@@ -67,9 +66,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     const setOpenDeleteModal = () => {
         setIsDeleteModalOpen(true)
         setIsEllipsisMenuOpen(false)
-    }
-
-    
+    }    
 
     return <>
         <div className='p-4 '>
@@ -91,7 +88,6 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
                 </div>
                 {
                     isEllipsisMenuOpen && <EllipsisMenu boardCreateType='edit' setBoardCreateType={setBoardCreateType} setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Boards"/>
-                    // isEllipsisMenuOpen && <EllipsisMenu type="Boards"  setIsDeleteModalOpen={setIsDeleteModalOpen} setIsBoardModalOpen={setIsBoardModalOpen} setIsEllipsisMenuOpen={setIsEllipsisMenuOpen}/>
                 }
             </header>
         </div>

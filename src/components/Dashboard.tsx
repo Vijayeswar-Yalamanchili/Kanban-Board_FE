@@ -1,10 +1,10 @@
-import Center from "./Center"
-import { useState } from "react";
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../redux/Store"
+import { setBoardActive } from "../redux/boardSlice"
 import Header from "./Header"
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/Store";
-import { setBoardActive } from "../redux/boardSlice";
-import EmptyBoard from "./EmptyBoard";
+import Center from "./Center"
+import EmptyBoard from "./EmptyBoard"
 
 function Dashboard() {
   const dispatch = useDispatch()

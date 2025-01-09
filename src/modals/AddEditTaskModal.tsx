@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { RootState } from '../redux/Store'
 import { addTask, editTask } from '../redux/boardSlice'
 import { SubTasks } from '../type'
 import crossIcon from '../assets/crossIcon.svg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
     setIsTaskModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
@@ -25,12 +25,10 @@ function AddEditTaskModal({setIsTaskModalOpen, taskType , device,setIsAddTaskMod
     const columns = board?.columns
     const col = columns?.find((_col, index) => index === prevColIndex)
     const task = col ? col.tasks.find((_task, index) => index === taskIndex) : []
-console.log(task)
     const [title, setTitle] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [status, setStatus] = useState<string>( columns?.[prevColIndex]?.name || "")
     const [_isValid, setIsValid] = useState<boolean>(true)
-    // const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true)
     const [newColIndex, setNewColIndex] = useState<number>(prevColIndex)
     const [subtasks, setSubtasks] = useState<SubTasks[]>([{ title: "", isCompleted: false, id: uuidv4() }])
     
@@ -38,11 +36,9 @@ console.log(task)
     const [priority, _setPriority] = useState<string[]>(["High", "Medium", "Low"])
     const [selectedPriority, setSelectedPriority] = useState<string>("High")
     const [dueDate, setDueDate] = useState<string>(`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`);
-//  console.log(board?.columns[0].tasks)
+
     const handleTaskModalToggle = (e : any) => {
-        if(e.target !== e.currentTarget){           // to close the dropdown on click anywhere in screen
-            return
-        }
+        if(e.target !== e.currentTarget)return           // to close the dropdown on click anywhere in screen
         setIsTaskModalOpen(false)
     }
 
@@ -56,29 +52,28 @@ console.log(task)
     }
 
     const onChangeStatus = (e : any) => {
-        setStatus(e.target.value);
-        setNewColIndex(e.target.selectedIndex);
+        setStatus(e.target.value)
+        setNewColIndex(e.target.selectedIndex)
     }
 
     const validate = () => {
         setIsValid(false)
         if (!title.trim()) {
-          return false;
+          return false
         }
         for (let i = 0 ; i < subtasks.length ; i++) {
             if (!subtasks[i].title.trim()) {
-                return false;
+                return false
             }
         }
-        setIsValid(true);
-        return true;
+        setIsValid(true)
+        return true
     }
 
     const onSubmit = (taskType : string) => {
         if (taskType === "add") {
           dispatch(addTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate, newColIndex}));
         } else {
-            // console.log("editTask")
             dispatch(editTask({title, description,subtasks, status, assigneeName, selectedPriority, dueDate,prevColIndex, taskIndex, newColIndex}))
         }
     }
@@ -189,7 +184,6 @@ console.log(task)
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </>

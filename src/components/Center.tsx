@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../redux/Store"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import SideBar from "./SideBar"
 import EmptyBoard from "./EmptyBoard"
 import Column from "./Column"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
+
 
 interface Props {
   isBoardModalOpen : boolean,
@@ -54,10 +55,6 @@ function Center({setIsBoardModalOpen, isBoardModalOpen} : Props) {
           <EmptyBoard type="edit" setIsBoardModalOpen={setIsBoardModalOpen} isBoardModalOpen={isBoardModalOpen}/>
         </>
       }
-
-      {/* {
-        isBoardModalOpen && <AddEditBoardModal boardCreateType="ediyyt" setIsBoardModalOpen={setIsBoardModalOpen} />
-      } */}
     </div>
   </>
 }

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/Store";
-import { deleteTask, setTaskStatus } from "../redux/boardSlice";
-import EllipsisMenu from "../components/EllipsisMenu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import Subtask from "../components/Subtask";
-import DeleteModal from "./DeleteModal";
-import AddEditTaskModal from "./AddEditTaskModal";
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons"
+import { RootState } from "../redux/Store"
+import { deleteTask, setTaskStatus } from "../redux/boardSlice"
+import EllipsisMenu from "../components/EllipsisMenu"
+import Subtask from "../components/Subtask"
+import DeleteModal from "./DeleteModal"
+import AddEditTaskModal from "./AddEditTaskModal"
 
 interface Props {
   taskIndex : number,
@@ -38,7 +38,6 @@ function TaskModal({taskIndex, colIndex, setIsTaskModalOpen}:Props) {
     }
   })
 
-
   const onChange = (e:any) => {
     setStatus(e.target.value);
     setNewColIndex(e.target.selectedIndex)
@@ -61,13 +60,13 @@ function TaskModal({taskIndex, colIndex, setIsTaskModalOpen}:Props) {
   }
 
   const setOpenEditModal = () => {
-    setIsAddTaskModalOpen(true);
-    setIsElipsisMenuOpen(false);
+    setIsAddTaskModalOpen(true)
+    setIsElipsisMenuOpen(false)
   };
 
   const setOpenDeleteModal = () => {
-    setIsElipsisMenuOpen(false);
-    setIsDeleteModalOpen(true);
+    setIsElipsisMenuOpen(false)
+    setIsDeleteModalOpen(true)
   };
 
   return <>

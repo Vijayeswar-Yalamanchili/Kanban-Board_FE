@@ -1,21 +1,19 @@
 import { useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
-import { Column } from "../type"
-import crossIcon from '../assets/crossIcon.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
-import { addBoard, editBoard } from "../redux/boardSlice"
 import { useDispatch, useSelector } from "react-redux"
+import { Column } from "../type"
+import { addBoard, editBoard } from "../redux/boardSlice"
 import { RootState } from "../redux/Store"
+import crossIcon from '../assets/crossIcon.svg'
 
 interface Props {
     setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
-    // setBoardCreateType:React.Dispatch<React.SetStateAction<string>>,
     boardCreateType : string
 }
 
 function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
-    console.log('boardCreateType : ', boardCreateType)
 
     const dispatch = useDispatch()
     const [name, setName] = useState<string>("")
@@ -41,34 +39,30 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
       }
 
     const handletScreenClickTarget = (e : any) => {
-        if(e.target !== e.currentTarget){               // to close the dropdown on click anywhere in screen
-            return
-        }
+        if(e.target !== e.currentTarget) return               // to close the dropdown on click anywhere in screen
         setIsBoardModalOpen(false)
     }
 
     const validate = () => {
         setIsValid(false)
         if (!name.trim()) {
-          return false;
+          return false
         }
         for (let i = 0 ; i < newColumns.length ; i++) {
             if (!newColumns[i].name.trim()) {
-                return false;
+                return false
             }
         }
-        setIsValid(true);
-        return true;
+        setIsValid(true)
+        return true
     }
 
     const onSubmit = (boardCreateType : string) => {
         setIsBoardModalOpen(false)
         if (boardCreateType === "add") {
-            console.log('add')
-          dispatch(addBoard({name, newColumns}));
+          dispatch(addBoard({name, newColumns}))
         } else {
-            console.log('edit')
-          dispatch(editBoard({name, newColumns}));
+          dispatch(editBoard({name, newColumns}))
         }
     }
 
@@ -82,20 +76,17 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     }
     
     const onDelete = (id : string) => {
-        setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
+        setNewColumns((prevState) => prevState.filter((el) => el.id !== id))
     }
 
     const handleAddNewColumn = () => {
-        console.log('New Column Added')
         setNewColumns((state) => [
             ...state,
             { name: "", tasks: [], id: uuidv4() },
         ])
-        console.log(newColumns)
     }
     
     const handleBoardChange = () => {
-        console.log('New Board Added')
         const isValid = validate()
         if (isValid) onSubmit(boardCreateType)
     }
