@@ -1,30 +1,49 @@
-# React + TypeScript + Vite
+# Kanban Board Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This Kanban Board application provides an intuitive and efficient way to manage tasks and workflows visually. With drag-and-drop functionality, task management becomes seamless and organized. It uses modern technologies like React, TypeScript, TailwindCSS, and Redux Toolkit to deliver a feature-rich and responsive user experience.
 
-Currently, two official plugins are available:
+## Features
+- **Task Management**: Create, update, and delete tasks effortlessly.
+- **Drag-and-Drop Functionality**: Organize tasks across columns visually.
+- **Responsive Design**: Fully optimized for devices of all sizes.
+- **State Persistence**: Automatically saves task state in LocalStorage for offline access.
+- **Modern Tech Stack**: Developed using React, TypeScript, TailwindCSS, and Redux Toolkit.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Deployment
+- **GitHub Repository**: [Kanban Board Frontend Repository](https://github.com/Vijayeswar-Yalamanchili/Kanban-Board_FE)
+- **Live Demo**: [Kanban Board Application](https://kanban-board-fe-i2aw.vercel.app/)
 
-## Expanding the ESLint configuration
+## Instructions to Run the Application Locally
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Vijayeswar-Yalamanchili/Kanban-Board_FE.git
+   cd Kanban-Board_FE
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+3. **Start the Application**:
+   ```bash
+   npm start
+   ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+4. **Access the Application**:
+   Open your browser and navigate to `http://localhost:3000` to view the application locally.
+
+## Real-Time Synchronization Feature
+The Kanban Board leverages advanced state management to provide real-time synchronization:
+
+- **Redux Toolkit**: Centralizes application state and ensures consistent updates across components.
+- **Optimized State Updates**: Efficient diffing and dispatch ensure minimal performance impact during updates.
+- **LocalStorage Backup**: Maintains task data in LocalStorage, ensuring a consistent experience even when offline.
+
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request with a detailed description of your changes.
