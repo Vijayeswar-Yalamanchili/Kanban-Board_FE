@@ -3,7 +3,7 @@ import logo from '../assets/logo.svg'
 import iconUp from '../assets/dropDownUp.svg'
 import iconDown from '../assets/dropDownDown.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { SetStateAction, useState } from 'react'
 import HeaderDropDown from './HeaderDropDown'
 import AddEditBoardModal from '../modals/AddEditBoardModal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,6 +43,8 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     const handleEllipsisMenu = () => {
         setIsEllipsisMenuOpen(state => !state)
         setOpenDropDown(false)
+        setBoardCreateType("edit")
+        
     }
 
     const onDeleteBtnClick = (e : any) => {
@@ -56,15 +58,18 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
     }
 
     const setOpenEditModal = () => {
+        setBoardCreateType("edit")
         setIsBoardModalOpen(true)
         setIsEllipsisMenuOpen(false)
-        setBoardCreateType("edit")
+        console.log('boardCreateType :', boardCreateType)
     }
   
     const setOpenDeleteModal = () => {
         setIsDeleteModalOpen(true)
         setIsEllipsisMenuOpen(false)
     }
+
+    
 
     return <>
         <div className='p-4 '>
@@ -85,7 +90,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
                     <div className='pe-2 cursor-pointer' onClick={handleEllipsisMenu}><FontAwesomeIcon icon={faEllipsisVertical}/></div>
                 </div>
                 {
-                    isEllipsisMenuOpen && <EllipsisMenu setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Boards"/>
+                    isEllipsisMenuOpen && <EllipsisMenu boardCreateType='edit' setBoardCreateType={setBoardCreateType} setOpenEditModal={setOpenEditModal} setOpenDeleteModal={setOpenDeleteModal} type="Boards"/>
                     // isEllipsisMenuOpen && <EllipsisMenu type="Boards"  setIsDeleteModalOpen={setIsDeleteModalOpen} setIsBoardModalOpen={setIsBoardModalOpen} setIsEllipsisMenuOpen={setIsEllipsisMenuOpen}/>
                 }
             </header>
@@ -100,7 +105,7 @@ function Header({setIsBoardModalOpen, isBoardModalOpen} : Props) {
         }
 
         {
-            isTaskModalOpen && <AddEditTaskModal setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile" prevColIndex={0} />
+            isTaskModalOpen && <AddEditTaskModal setIsTaskModalOpen={setIsTaskModalOpen} taskType="add" device="mobile" prevColIndex={0}  taskIndex={0} />
         }
 
         {

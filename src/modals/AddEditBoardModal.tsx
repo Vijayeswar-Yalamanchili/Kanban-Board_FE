@@ -10,6 +10,7 @@ import { RootState } from "../redux/Store"
 
 interface Props {
     setIsBoardModalOpen :React.Dispatch<React.SetStateAction<boolean>>,
+    // setBoardCreateType:React.Dispatch<React.SetStateAction<string>>,
     boardCreateType : string
 }
 
@@ -27,7 +28,6 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
     ])    
     const board = useSelector((state :RootState) => state?.board?.boards).find((board) => board?.isActive)
 
-
     if (boardCreateType === "edit" && isFirstLoad) {
         // if(board?.columns) {
         //     setNewColumns(
@@ -38,7 +38,7 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
         // }
         if(board) setName(board?.name)
         setIsFirstLoad(false)
-    }
+      }
 
     const handletScreenClickTarget = (e : any) => {
         if(e.target !== e.currentTarget){               // to close the dropdown on click anywhere in screen
@@ -98,13 +98,13 @@ function AddEditBoardModal({setIsBoardModalOpen, boardCreateType} : Props) {
         console.log('New Board Added')
         const isValid = validate()
         if (isValid) onSubmit(boardCreateType)
-        console.log('boardCreateType : ', boardCreateType)
     }
 
     return <>
         <div onClick={(e) => handletScreenClickTarget(e)} className="fixed right-0 top-0 px-2 py-4 overflow-scroll scrollbar-hide  z-50 left-0 bottom-0 justify-center items-center flex dropdown">
             {/* Modal Section */}
             <div className="scrollbar-hide overflow-y-scroll max-h-[95vh] bg-slate-100 dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto mt-32 w-full px-8 py-8 rounded-xl">
+                {boardCreateType}
                 <h3 className="text-lg">{boardCreateType === 'edit' ? 'Edit': "Add New"} Board</h3>
                 {/* Task Name */}
                 <div className="mt-8 flex flex-col space-y-1">

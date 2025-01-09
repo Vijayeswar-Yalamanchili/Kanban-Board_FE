@@ -17,7 +17,7 @@ interface Props {
     taskIndex : number
 }
 
-function AddEditTaskModal({setIsTaskModalOpen, taskType , device, setIsAddTaskModalOpen,taskIndex,prevColIndex = 0, }:Props) {
+function AddEditTaskModal({setIsTaskModalOpen, taskType , device,setIsAddTaskModalOpen,taskIndex,prevColIndex = 0, }:Props) {
 
     let today = new Date()
     const dispatch = useDispatch()

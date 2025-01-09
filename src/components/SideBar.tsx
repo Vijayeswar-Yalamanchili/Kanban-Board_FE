@@ -6,6 +6,7 @@ import hideSidebarIcon from '../assets/hideSidebarIcon.svg'
 import AddEditBoardModal from "../modals/AddEditBoardModal"
 import { setBoardActive } from "../redux/boardSlice"
 import Theme from "./Theme"
+import { useState } from "react"
 
 interface Props {
     isBoardModalOpen : boolean,
@@ -15,7 +16,7 @@ interface Props {
 }
 
 function SideBar({isBoardModalOpen, setIsBoardModalOpen,isSideBarOpen, setIsSideBarOpen}:Props) {
-  
+  const [boardCreateType, setBoardCreateType] = useState<string>("edit")
   const dispatch = useDispatch()
   const boards = useSelector((state: RootState) => state.board.boards)
 
@@ -25,6 +26,7 @@ function SideBar({isBoardModalOpen, setIsBoardModalOpen,isSideBarOpen, setIsSide
 
   const handleBoardCreate = () => {
     setIsBoardModalOpen(true)
+    setBoardCreateType("add")
   }
 
   return <>
@@ -75,7 +77,7 @@ function SideBar({isBoardModalOpen, setIsBoardModalOpen,isSideBarOpen, setIsSide
       </div>
 
       {
-        isBoardModalOpen && <AddEditBoardModal boardCreateType="add" setIsBoardModalOpen={setIsBoardModalOpen}/>
+        isBoardModalOpen && <AddEditBoardModal boardCreateType={boardCreateType} setIsBoardModalOpen={setIsBoardModalOpen}/>
       }
     </div>
   </>
